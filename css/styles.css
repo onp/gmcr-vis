@@ -1,0 +1,227 @@
+div.container{
+	width:1200px;
+	position:relative;
+	margin:0 auto;
+}
+
+ul{margin:0;padding:0}
+li{margin:0;padding:0;list-style:none;}
+p{margin:0;padding:0}
+div{margin:0;padding:0}
+
+div.topbar{
+	position:relative;
+	width:101%;
+	height:95px;
+	right:5px;
+	border-bottom:2px solid gray;
+}
+
+div.topbar p{
+	border-left:2px solid gray;
+	padding:0px 5px;
+	text-align:right;
+	position:absolute;
+	right:20px;
+	font-size:40px;
+	font-weight:bold;
+}
+
+div.sidebar{
+	position:absolute;
+	top:100px;
+}
+
+div.sidebar ul{
+	margin:0;
+	padding:0;
+}
+
+div.sidebar li{
+	position:relative;
+	display:block;
+	height:32px;
+	width:150px;
+	list-style:none;
+	background-color:gray;
+	box-sizing:border-box;
+	border-top:1px solid black;
+	border-bottom:1px solid lightGray;
+	border-right:1px solid black;
+}
+
+div.sidebar li ul{
+	display:none;
+	position:absolute;
+	left:150px;
+	top:-1px;
+}
+
+div.sidebar li p{
+	margin:0;
+	padding:4px 12px;
+}		
+
+div.mainContent{
+	position:absolute;
+	left: 13%;
+	top:100px;
+	background-color:darkTurquoise;
+	min-height:500px;
+	width:87%;
+}
+
+div.dmList{
+	position:relative;
+	width:45%;
+	padding:10px;
+}
+
+form.dmForm{
+	position:relative;
+	margin-bottom:10px;
+	border:2px solid black;
+	width:100%;
+	min-height:150;
+	background-color:lightBlue;
+}
+
+li.addDM {
+	position:relative;
+	margin:0px;
+	border:1px solid black;
+	width:100%;
+	height:25px;
+	padding:2px 1px;
+	background-color:deepskyblue;
+	text-align:center;
+	font-size:20px;
+}
+
+li.addDM:hover {
+	border:2px black solid;
+	padding:1px 0px;
+}
+
+form.dmForm input.dmName{
+	position:relative;
+	margin:5px;
+	width:45%;
+	font-size:20px;
+	color:red;
+	padding:8px 4px;
+}
+
+form.dmForm ul.dmOptions{
+	margin:5px;
+	padding:5px;
+	padding-bottom:1px;
+	position:relative;
+	width:300px;
+	min-height:65px;
+	background-color:beige;
+}
+
+li.option {
+	height:60px;
+	width:300px;
+	margin-bottom:5px;
+	background-color:lightGreen;
+	position:relative;
+}
+
+li.addOpt {
+	height:18px;
+	width:288px;
+	padding:5px;
+	margin-bottom:5px;
+	background-color:limeGreen;
+	border:1px limeGreen solid;
+	position:relative;
+	text-align:center;
+}
+
+li.addOpt:hover {
+	border:1px black solid;
+}
+
+li.option img.icon{
+	position:relative;
+	height:40px;
+	width:40px;
+	border:2px solid black;
+	border-radius:10px;
+	margin:7px;
+	background-color:gold;
+}
+
+li.option img.icon:hover{
+	border:3px solid black;
+	margin:6px;
+}
+
+li.option input.optName{
+	position: absolute;
+	background-color:lightGreen;
+	border:1px solid lightGreen;
+	margin:5px;
+	font-weight:bold;
+	font-size:16px;
+}
+
+li.option input.optName:hover{
+	position: absolute;
+	background-color:lightGreen;
+	border:1px solid black;
+	margin:5px;
+	font-weight:bold;
+	font-size:16px;
+}
+
+li.option div.optDetails{
+	position:absolute;
+	margin:5px;
+	bottom:0;
+	left:56px;
+}
+
+img.cornerX{
+	position:absolute;
+	right:4px;
+	top:3px;
+	height:14px;
+	width:14px;
+	padding:1px;
+	border-radius:9px;
+}
+
+img.cornerX:hover{
+	border:1px solid black;
+	padding:0px;
+}
+
+div.iconPicker{
+	padding:3.5px;
+	background-color:red;
+	width:147px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:1;
+}
+
+img.iconPicker{
+	position:relative;
+	float:left;
+	height:40px;
+	width:40px;
+	border:2px solid black;
+	margin:2.5px;
+	border-radius:10px;
+	background-color:gold;
+}
+
+img.iconPicker:hover{
+	border:3px solid black;
+	margin:1.5px;
+}

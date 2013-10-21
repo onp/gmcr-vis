@@ -1,0 +1,11 @@
+<form class="dmForm">
+	<input type="text" value="{{name}}" class="dmName"></input>
+	<img src="images/x.png" class="cornerX"/>
+	<ul class="dmOptions">
+		{{#options}}
+		{{>optionTemplate}}
+		{{/options}}
+		<li class="addOpt">Add New Option</li>
+	</ul>
+
+</form>
