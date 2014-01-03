@@ -66,7 +66,7 @@
             .on("click", function (d) {
                 d3.selectAll("circle." + this.classList[1])
                     .style("fill", "lightBlue");
-                changeRoot(d.dat);
+                treeVis.changeRoot(d.dat.id);
             });
 
         visNodes.attr("class", function (d) {return "node st" + d.dat.id; })
