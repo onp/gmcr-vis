@@ -35,6 +35,7 @@
         .projection(function (d) {return [d.x, d.y+20]; });
 
     var refresh = function () {
+        d3.selectAll("circle").style("fill", "lightBlue")
         treeRoot = buildTree(rootNode, null, treeVis.treeDepth);
 
         nodeData = tree.nodes(treeRoot);    //insert structure into d3 tree
