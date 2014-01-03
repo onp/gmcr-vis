@@ -1,1 +1,0 @@
-window.templates = {"stateListTemplate": "<div class=\"state st{{id}}\"> \t<svg> \t\t<circle r=\"10\" class=\"node st{{id}}\" cx=\"12.5\" cy=\"12.5\"></circle> \t\t<text class=\"label\" dy=\"3\" transform=\"translate(12.5,12.5)\">{{id}}</text> \t</svg> \t<span>{{state}}</span> </div> "};

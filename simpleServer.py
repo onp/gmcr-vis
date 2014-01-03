@@ -8,9 +8,8 @@ PORT = 8000
 
 Handler = http.server.CGIHTTPRequestHandler
 
-#httpd = socketserver.TCPServer(("",PORT),Handler)
 httpd = http.server.HTTPServer(("",PORT),Handler)
 
-print("now serving:   " + os.getcwd())
+print("now serving:   ", os.getcwd(), "\nOn port ", PORT)
 
 httpd.serve_forever()

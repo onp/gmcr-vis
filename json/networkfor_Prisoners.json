@@ -1,9 +1,0 @@
-{"nodes": {
- "1": {"reachable": [{"source": "1", "dm": "dm0", "target": "0"}, {"source": "1", "dm": "dm1", "target": "3"}], "state": "YN", "ordered": "2", "id": "1"},
- "0": {"reachable": [{"source": "0", "dm": "dm0", "target": "1"}, {"source": "0", "dm": "dm1", "target": "2"}], "state": "YY", "ordered": "1", "id": "0"},
- "3": {"reachable": [{"source": "3", "dm": "dm0", "target": "2"}, {"source": "3", "dm": "dm1", "target": "1"}], "state": "NN", "ordered": "4", "id": "3"},
- "2": {"reachable": [{"source": "2", "dm": "dm0", "target": "3"}, {"source": "2", "dm": "dm1", "target": "0"}], "state": "NY", "ordered": "3", "id": "2"}},
-
- "DMs": ["Prisoner 1", "Prisoner 2"],
- "startNode":"0"
-}
