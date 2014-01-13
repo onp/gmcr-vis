@@ -105,7 +105,7 @@
     }
     
     graphVis.visConfig = function(){
-        return $("<div></div>")
+        $("ul#vis-config").html('')
     };
         
     var graph = d3.layout.force()
