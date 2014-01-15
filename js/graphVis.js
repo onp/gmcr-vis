@@ -4,6 +4,7 @@
     graphVis.name = "Graph";
     graphVis.showOnlyUIs = false;
     graphVis.connectorShape = "line";
+    graphVis.styleNonUIs = false;
     
     var conflict, container;
     var visNodes, visLinks, visLabels;  // d3 selections
@@ -17,6 +18,32 @@
     
     function linkLine(d){
         return "M" + d.source.x +"," + d.source.y + "L" + d.target.x + "," + d.target.y;
+    }
+    
+    function isNotUI(d){
+        console.log("testing")
+        if (graphVis.styleNonUIs == false){
+            return false
+        } else if (d.payoffChange <= 0){
+            return true
+        }
+        return false
+    }
+    
+    function markerSelector(d){
+        if (graphVis.connectorShape == "line"){
+            if ((d.payoffChange <= 0 )&& graphVis.styleNonUIs){
+                return "url(#straight-nonUI)"
+            } else {
+                return "url(#straight-UI)"
+            }
+        } else if (graphVis.connectorShape == "arc") {
+            if ((d.payoffChange <= 0 )&& graphVis.styleNonUIs){
+                return "url(#arc-nonUI)"
+            } else {
+                return "url(#arc-UI)"
+            }
+        }
     }
     
     var refresh =  function () {
@@ -44,6 +71,8 @@
             .insert("path", "circle")
             .attr("class", function(d) { return "link " + d.dm; })
             .attr("marker-end","url(#arrow-head)")
+        visLinks.attr("marker-end", markerSelector)
+            .classed("notUI",isNotUI)
 
         visNodes.exit().remove()
         visNodes.enter()
@@ -130,11 +159,15 @@
                 <input type='radio' name='connectorShape' value='line'>  \
                 <label>Line</label>                             \
                 <input type='radio' name='connectorShape' value='arc'>   \
-                <label>Arc</label>                             \
+                <label>Arc</label>                              \
             </li>                                               \
             <li>                                                \
                 <input type='checkbox' name='ui' id='ui'>       \
                 <label for='ui'>Only show UIs</label>           \
+            </li>                                               \
+            <li>                                                \
+                <input type='checkbox' name='styleNonUIs' id='styleNonUIs'>       \
+                <label for='styleNonUIs'>Show non-UIs as dotted lines</label>           \
             </li>");
             
         config.find("input[name='connectorShape'][value='"+graphVis.connectorShape+"']")
@@ -148,6 +181,13 @@
             .prop("checked", graphVis.showOnlyUIs)
             .change(function(){
                 graphVis.showOnlyUIs = $(this).prop("checked");
+                refresh();
+            });
+        
+        config.find("#styleNonUIs")
+            .prop("checked", graphVis.styleNonUIs)
+            .change(function(){
+                graphVis.styleNonUIs = $(this).prop("checked");
                 refresh();
             });
         

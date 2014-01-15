@@ -121,6 +121,11 @@ svg#visualization-container{
 	text-anchor:middle;
 }
 
+.link.notUI{
+	stroke-width: 1px;
+    stroke-dasharray: 5 6;
+}
+
 .link.dm0{
 	stroke:blue;
 }
