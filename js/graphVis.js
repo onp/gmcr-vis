@@ -2,9 +2,22 @@
     "use strict";
 
     graphVis.name = "Graph";
+    graphVis.showOnlyUIs = false;
+    graphVis.connectorShape = "line";
     
     var conflict, container;
     var visNodes, visLinks, visLabels;  // d3 selections
+    
+    function linkArc(d) {
+      var dx = d.target.x - d.source.x,
+          dy = d.target.y - d.source.y,
+          dr = Math.sqrt(dx * dx + dy * dy);
+      return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+    }
+    
+    function linkLine(d){
+        return "M" + d.source.x +"," + d.source.y + "L" + d.target.x + "," + d.target.y;
+    }
     
     var refresh =  function () {
         graph.nodes(conflict.data.nodes)
@@ -14,6 +27,12 @@
 			Array.prototype.push.apply(rawLinks,a.reachable);
 		});
         
+        if (graphVis.showOnlyUIs == true){
+            rawLinks = rawLinks.filter(function(a){
+                return a.payoffChange > 0
+            })
+        }
+        
         graph.links(rawLinks);
 
         visNodes = container.selectAll(".node").data(graph.nodes()),
@@ -22,9 +41,9 @@
     
         visLinks.exit().remove();
         visLinks.enter()
-            .insert("line", "circle")
+            .insert("path", "circle")
             .attr("class", function(d) { return "link " + d.dm; })
-            .attr("marker-end","url(#arrow-head)");
+            .attr("marker-end","url(#arrow-head)")
 
         visNodes.exit().remove()
         visNodes.enter()
@@ -69,11 +88,12 @@
     var tick = function () {
         visNodes.attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; })
-
-        visLinks.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
+        
+        if (graphVis.connectorShape == "arc"){
+            visLinks.attr("d", linkArc);
+        } else if (graphVis.connectorShape == "line"){
+            visLinks.attr("d",linkLine);
+        }
           
         visLabels.attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")";
@@ -105,7 +125,34 @@
     }
     
     graphVis.visConfig = function(){
-        $("ul#vis-config").html('')
+        var config = $(
+            "<li>                                               \
+                <input type='radio' name='connectorShape' value='line'>  \
+                <label>Line</label>                             \
+                <input type='radio' name='connectorShape' value='arc'>   \
+                <label>Arc</label>                             \
+            </li>                                               \
+            <li>                                                \
+                <input type='checkbox' name='ui' id='ui'>       \
+                <label for='ui'>Only show UIs</label>           \
+            </li>");
+            
+        config.find("input[name='connectorShape'][value='"+graphVis.connectorShape+"']")
+            .prop('checked',true);
+        config.find("input[name='connectorShape']")
+            .change(function(){
+                graphVis.connectorShape = $(this).val();
+                refresh();
+            });
+        config.find("#ui")
+            .prop("checked", graphVis.showOnlyUIs)
+            .change(function(){
+                graphVis.showOnlyUIs = $(this).prop("checked");
+                refresh();
+            });
+        
+        $("ul#vis-config").html('').append(config);
+    
     };
         
     var graph = d3.layout.force()
