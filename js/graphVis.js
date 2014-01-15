@@ -167,7 +167,7 @@
             </li>                                               \
             <li>                                                \
                 <input type='checkbox' name='styleNonUIs' id='styleNonUIs'>       \
-                <label for='styleNonUIs'>Show non-UIs as dotted lines</label>           \
+                <label for='styleNonUIs'>differentiate non-UIs</label>           \
             </li>");
             
         config.find("input[name='connectorShape'][value='"+graphVis.connectorShape+"']")
