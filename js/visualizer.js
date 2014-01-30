@@ -54,6 +54,7 @@ var changeLegend = function () {
     $("div#menu-bottom table").html("");
     
     var legendData = [[],[]];
+    var dmNames = ""
     
     for (var i = 2; i<conflict.data.options.length+2; i++){
         legendData[i] = [];
@@ -68,8 +69,9 @@ var changeLegend = function () {
     var row = 2;
     for (var i = 0; i < conflict.data.decisionMakers.length; i++){
         var dm = conflict.data.decisionMakers[i];
-        legendData[i+row][0] = tElemMaker(dm.name, "th", dm.options.length);
+        legendData[i+row][0] = tElemMaker(dm.name, "th", dm.options.length,["dm"+i]);
         row += dm.options.length -1;
+        dmNames += "<p class='dm"+i+"'>"+dm.name+"</p>"
     }
     
     for (var i = 0; i < conflict.data.options.length; i++){
@@ -132,6 +134,7 @@ var changeLegend = function () {
         }
     });
     
+    $("#dm-names").html(dmNames);
     
 };
 

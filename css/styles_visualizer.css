@@ -1,5 +1,13 @@
-body{
+html{
     height:100%
+}
+
+body{
+    position:absolute;
+    bottom:0px;
+    top:0px;
+    left:0px;
+    right:0px;
 }
 
 /* Side Menus */
@@ -86,6 +94,16 @@ div#menu-bottom table td{
     border:1px solid black;
 }
 
+div#dm-names{
+    position:absolute;
+    top:0px;
+    right:20px;
+}
+
+div#dm-names p{
+    margin:10px 0px 0px 0px;
+}
+
 /* Main content */
 div#main{
     margin:0px 20px;
@@ -126,18 +144,24 @@ svg#visualization-container{
     stroke-dasharray: 5 6;
 }
 
-.link.dm0{
+.dm0{
 	stroke:blue;
+    color:blue;
 }
-.link.dm1{
+.dm1{
 	stroke:green;
+    color:green;
 }
-.link.dm2{
+.dm2{
 	stroke:orange;
+    color:orange;
 }
-.link.dm3{
+.dm3{
 	stroke:purple;
+    color:purple;
 }
-.link.dm4{
+.dm4{
 	stroke:yellow;
+    color:yellow;
 }
+
