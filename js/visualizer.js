@@ -1,10 +1,7 @@
 'use strict';
 
 var conflicts = [
-	{"name" : "Prisoners", "url" : "json/PrisonersVis.json"},
-	{"name" : "Garrison", "url" : "json/GarrisonVis.json"},
-	{"name" : "SyriaIraq", "url" : "json/SyriaIraqVis.json"},
-	{"name" : "Elmira", "url" : "json/Elmira.json"}
+	{"name" : "Conflict", "url" : "json/conflictData.json"},
 ];
 
 var visualizations = [treeVis, graphVis];
