@@ -167,6 +167,10 @@ $(function () {
         visualization.resize();
     });
     
+    $("div#menu-left,div#menu-bottom").on('touchstart',function(){
+        $(this).toggleClass("hover")
+    })
+    
     $("ul#conflict-list li").first().click();
     $("ul#visualization-list li").first().addClass('selected');
     visualization.visConfig();
