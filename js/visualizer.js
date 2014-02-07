@@ -167,9 +167,23 @@ $(function () {
         visualization.resize();
     });
     
-    $("div#menu-left,div#menu-bottom").on('touchstart',function(){
-        $(this).toggleClass("hover")
-    })
+    var extendMenu= function (){
+        $(this).addClass("extended")
+        setTimeout(function(){
+            $(this).one('click',function(){
+                $(this).removeClass("extended")
+                    .one('touchstart',extendMenu)
+            })
+        },500)
+    }
+    
+    $("div#menu-left,div#menu-bottom")
+        .one('touchstart',extendMenu
+        ).on('mouseover',function(){
+            $(this).addClass("extended")
+        }).on('mouseout',function(){
+            $(this).removeClass("extended")
+        })
     
     $("ul#conflict-list li").first().click();
     $("ul#visualization-list li").first().addClass('selected');
