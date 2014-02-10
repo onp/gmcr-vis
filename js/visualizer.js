@@ -168,10 +168,11 @@ $(function () {
     });
     
     var extendMenu= function (){
-        $(this).addClass("extended")
+        var $th = $(this)
+        $th.addClass("extended")
         setTimeout(function(){
-            $(this).one('click',function(){
-                $(this).removeClass("extended")
+            $th.one('click',function(){
+                $th.removeClass("extended")
                     .one('touchstart',extendMenu)
             })
         },500)
