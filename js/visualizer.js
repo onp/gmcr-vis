@@ -12,27 +12,29 @@ var visualizations = [treeVis, graphVis];
 var visualization = visualizations[0];
 var conflict = conflicts[0];
 
+var unpackJSONconflict = function(data){
+    //this conflict unpacker is incomplete.  Currently only deals with reachability.
+    for (var i = 0; i < data.nodes.length; i++){
+        var node = data.nodes[i];
+        node.reachable = $.map(node.reachable,
+                function (link) {
+                    link.source = node;
+                    link.target = data.nodes[link.target];
+                    return(link);
+                }
+        );
+    }
+    conflict.data = data;
+    loadConflict()
+}
+
 var loadConflict = function () {
     if (conflict.data === undefined) {
-        $.getJSON(conflict.url, function (data) {
-            //this conflict unpacker is incomplete.  Currently only deals with reachability.
-            for (var i = 0; i < data.nodes.length; i++){
-                var node = data.nodes[i];
-                node.reachable = $.map(node.reachable,
-                        function (link) {
-                            link.source = node;
-                            link.target = data.nodes[link.target];
-                            return(link);
-                        }
-                );
-            }
-            conflict.data = data;
-            visualization.loadVis(conflict,d3.select("svg#visualization-container"));
-            changeLegend();
-        });
-    }else{
-        visualization.loadVis(conflict,d3.select("svg#visualization-container"));
+        $.getJSON(conflict.url, unpackJSONconflict);
+        return
     }
+    visualization.loadVis(conflict,d3.select("svg#visualization-container"));
+    changeLegend();
 };
 
 var tElemMaker = function(val,elem, rows, classes){
@@ -140,8 +142,8 @@ var changeLegend = function () {
 
 
 $(function () {
-    
-    $.each(conflicts,function (i, conf) {
+
+    var addConflict = function (i, conf) {
         $("<li>" + conf.name + "</li>")
             .click(function () {
                 conflict = conf;
@@ -149,7 +151,9 @@ $(function () {
                 $(this).siblings().removeClass('selected');
                 $(this).addClass('selected');
             }).appendTo("ul#conflict-list");
-    });
+    }
+    
+    $.each(conflicts,addConflict);
     
     $.each(visualizations, function (i, vis) {
         $("<li>" + vis.name + "</li>")
@@ -185,6 +189,22 @@ $(function () {
         }).on('mouseout',function(){
             $(this).removeClass("extended")
         })
+        
+    $("#confFileSelector").change(function(event){
+        var file = event.target.files[0]
+        var reader = new FileReader();
+        reader.onload = function(){
+            var newData = {'name':file.name,
+                       'url':"FromFile",
+            }
+            conflicts.push(newData)
+            addConflict(undefined,newData)
+            conflict = newData;
+            unpackJSONconflict(JSON.parse(reader.result))
+        }
+        
+        reader.readAsText(file);
+    })
     
     $("ul#conflict-list li").first().click();
     $("ul#visualization-list li").first().addClass('selected');

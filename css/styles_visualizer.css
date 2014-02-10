@@ -20,6 +20,7 @@ div#menu-left{
     left:-180px;
     background:lightBlue;
     border-right:1px solid black;
+    overflow:hidden;
 }
 
 div#menu-left.extended{
@@ -77,6 +78,10 @@ ul.item-selector li:hover{
 
 ul.item-selector li.selected{
     background:lightSeaGreen;
+}
+
+input#confFileSelector{
+    width:180px;
 }
 
 div#menu-bottom table{
