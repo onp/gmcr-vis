@@ -62,22 +62,21 @@
         
         graph.links(rawLinks);
 
-        visNodes = container.selectAll(".node").data(graph.nodes()),
-        visLinks = container.selectAll(".link").data(graph.links()),
-        visLabels = container.selectAll(".label").data(graph.nodes());
-    
+        visNodes = container.selectAll("circle.node").data(graph.nodes()),
+        visLinks = container.selectAll("path.link").data(graph.links()),
+        visLabels = container.selectAll("text.label").data(graph.nodes());
+
         visLinks.exit().remove();
         visLinks.enter()
             .insert("path", "circle")
-            .attr("class", function(d) { return "link " + d.dm; })
-            .attr("marker-end","url(#arrow-head)")
         visLinks.attr("marker-end", markerSelector)
+            .attr("class", function(d) { return "link " + d.dm; })
             .classed("notUI",isNotUI)
 
         visNodes.exit().remove()
         visNodes.enter()
             .append("circle")
-            .attr("class", function(d) { return "node st" + d.id; })
+        visNodes.attr("class", function(d) { return "node st" + d.id; })
             .attr("r", 10)
             .call(graph.drag)
             .on("mouseover",function(){
@@ -97,7 +96,7 @@
             .append("text")
             .attr("class", "label")
             .attr("dy",3)
-            .text(function(d){return d.ordered});
+        visLabels.text(function(d){return d.ordered});
         
         
         d3.selectAll("div.state")
