@@ -80,8 +80,8 @@
         visLinks.exit().remove();
         visLinks.enter()
             .insert("path", "circle")
-            .attr("class", function(d) { return "link " + d.dm; })
         visLinks.attr("marker-end", markerSelector)
+            .attr("class", function(d) { return "link " + d.dm; })
             .classed("ui",isUI)
 
         visNodes.exit().remove()
