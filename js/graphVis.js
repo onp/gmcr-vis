@@ -22,7 +22,6 @@
     }
     
     function isNotUI(d){
-        console.log("testing")
         if (graphVis.styleNonUIs == false){
             return false
         } else if (d.payoffChange <= 0){
@@ -32,7 +31,6 @@
     }
 	
     function isUI(d){
-        console.log("testing")
         if (graphVis.styleUIs == false){
             return false
         } else if (d.payoffChange > 0){
