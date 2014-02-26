@@ -41,9 +41,9 @@
         nodeData = tree.nodes(treeRoot);    //insert structure into d3 tree
         linkData = tree.links(nodeData);    //store calculated link data
 
-        visNodes = container.selectAll(".node").data(nodeData);    //establish d3 selection variables
-        visLinks = container.selectAll(".link").data(linkData);
-        visLabels = container.selectAll(".label").data(nodeData);
+        visNodes = container.selectAll("circle.node").data(nodeData);    //establish d3 selection variables
+        visLinks = container.selectAll("path.link").data(linkData);
+        visLabels = container.selectAll("text.label").data(nodeData);
     
         visLinks.exit().remove();
         visLinks.enter().insert("path", "circle");

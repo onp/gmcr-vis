@@ -20,7 +20,7 @@ div#menu-left{
     left:-180px;
     background:lightBlue;
     border-right:1px solid black;
-    overflow:hidden;
+    overflow:scroll;
 }
 
 div#menu-left.extended{
@@ -128,7 +128,7 @@ svg#visualization-container{
 
 .link{
 	stroke:#000;
-	stroke-width: 1.5px;
+	stroke-width: 1px;
     fill:none;
 }
 
@@ -147,6 +147,10 @@ svg#visualization-container{
 .link.notUI{
 	stroke-width: 1px;
     stroke-dasharray: 5 6;
+}
+
+.link.ui{
+	stroke-width: 4px;
 }
 
 .dm0{

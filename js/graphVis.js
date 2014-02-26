@@ -5,6 +5,7 @@
     graphVis.showOnlyUIs = false;
     graphVis.connectorShape = "line";
     graphVis.styleNonUIs = false;
+    graphVis.styleUIs = false;
     
     var conflict, container;
     var visNodes, visLinks, visLabels;  // d3 selections
@@ -29,19 +30,29 @@
         }
         return false
     }
+	
+    function isUI(d){
+        console.log("testing")
+        if (graphVis.styleUIs == false){
+            return false
+        } else if (d.payoffChange > 0){
+            return true
+        }
+        return false
+    }
     
     function markerSelector(d){
         if (graphVis.connectorShape == "line"){
-            if ((d.payoffChange <= 0 )&& graphVis.styleNonUIs){
-                return "url(#straight-nonUI)"
-            } else {
+            if ((d.payoffChange > 0 )&& graphVis.styleUIs){
                 return "url(#straight-UI)"
+            } else {
+				return "url(#straight-nonUI)"
             }
         } else if (graphVis.connectorShape == "arc") {
-            if ((d.payoffChange <= 0 )&& graphVis.styleNonUIs){
-                return "url(#arc-nonUI)"
-            } else {
+            if ((d.payoffChange > 0 )&& graphVis.styleUIs){
                 return "url(#arc-UI)"
+            } else {
+				return "url(#arc-nonUI)"
             }
         }
     }
@@ -62,22 +73,21 @@
         
         graph.links(rawLinks);
 
-        visNodes = container.selectAll(".node").data(graph.nodes()),
-        visLinks = container.selectAll(".link").data(graph.links()),
-        visLabels = container.selectAll(".label").data(graph.nodes());
-    
+        visNodes = container.selectAll("circle.node").data(graph.nodes()),
+        visLinks = container.selectAll("path.link").data(graph.links()),
+        visLabels = container.selectAll("text.label").data(graph.nodes());
+
         visLinks.exit().remove();
         visLinks.enter()
             .insert("path", "circle")
             .attr("class", function(d) { return "link " + d.dm; })
-            .attr("marker-end","url(#arrow-head)")
         visLinks.attr("marker-end", markerSelector)
-            .classed("notUI",isNotUI)
+            .classed("ui",isUI)
 
         visNodes.exit().remove()
         visNodes.enter()
             .append("circle")
-            .attr("class", function(d) { return "node st" + d.id; })
+        visNodes.attr("class", function(d) { return "node st" + d.id; })
             .attr("r", 10)
             .call(graph.drag)
             .on("mouseover",function(){
@@ -97,7 +107,7 @@
             .append("text")
             .attr("class", "label")
             .attr("dy",3)
-            .text(function(d){return d.ordered});
+        visLabels.text(function(d){return d.ordered});
         
         
         d3.selectAll("div.state")
@@ -156,9 +166,9 @@
     graphVis.visConfig = function(){
         var config = $(
             "<li>                                               \
-                <input type='radio' name='connectorShape' value='line'>  \
+                <input type='radio' name='connectorShape' value='line'> \
                 <label>Line</label>                             \
-                <input type='radio' name='connectorShape' value='arc'>   \
+                <input type='radio' name='connectorShape' value='arc'>  \
                 <label>Arc</label>                              \
             </li>                                               \
             <li>                                                \
@@ -166,8 +176,8 @@
                 <label for='ui'>Only show UIs</label>           \
             </li>                                               \
             <li>                                                \
-                <input type='checkbox' name='styleNonUIs' id='styleNonUIs'>       \
-                <label for='styleNonUIs'>differentiate non-UIs</label>           \
+                <input type='checkbox' name='styleUIs' id='styleUIs'>   \
+                <label for='styleUIs'>differentiate UIs</label>         \
             </li>");
             
         config.find("input[name='connectorShape'][value='"+graphVis.connectorShape+"']")
@@ -184,10 +194,10 @@
                 refresh();
             });
         
-        config.find("#styleNonUIs")
-            .prop("checked", graphVis.styleNonUIs)
+        config.find("#styleUIs")
+            .prop("checked", graphVis.styleUIs)
             .change(function(){
-                graphVis.styleNonUIs = $(this).prop("checked");
+                graphVis.styleUIs = $(this).prop("checked");
                 refresh();
             });
         

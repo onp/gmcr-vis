@@ -70,7 +70,7 @@ var changeLegend = function () {
         var dm = conflict.data.decisionMakers[i];
         legendData[i+row][0] = tElemMaker(dm.name, "th", dm.options.length,["dm"+i]);
         row += dm.options.length -1;
-        dmNames += "<p class='dm"+i+"'>"+dm.name+"</p>"
+        dmNames += "<p class='dm"+i+"'>---- "+dm.name+"</p>"
     }
     
     for (var i = 0; i < conflict.data.options.length; i++){

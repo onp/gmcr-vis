@@ -33,10 +33,18 @@
         
         <svg id="visualization-container">
             <defs>
-                <marker id="straight-UI" viewBox="0 -5 18 10" refX="19" refY="0" markerWidth="15" markerHeight="10" orient="auto" color="inherit"><path d="M0,-5 L10,0 L0,5" fill="black" stroke="black"></path></marker>
-                <marker id="straight-nonUI" viewBox="0 -5 18 10" refX="22" refY="0" markerWidth="15" markerHeight="10" orient="auto" color="inherit"><path d="M0,-5 L10,0 L0,5" fill="none" stroke="black" stroke-dasharray="5,0"></path></marker>
-                <marker id="arc-UI" viewBox="0 -5 18 10" refX="18" refY="-1.5" markerWidth="15" markerHeight="10" orient="auto" color="inherit"><path d="M0,-5 L10,0 L0,5" fill="black"></path></marker>
-                <marker id="arc-nonUI" viewBox="0 -5 18 10" refX="22" refY="-1.5" markerWidth="15" markerHeight="10" orient="auto" color="inherit"><path d="M0,-5 L10,0 L0,5"  fill="none" stroke="black" stroke-dasharray="5,0"></path></marker>
+                <marker id="straight-UI" viewBox="0 -5 20 10" refX="30" refY="0" markerWidth="20" markerHeight="10" orient="auto" color="green" markerUnits='userSpaceOnUse' preserveAspectRatio=none>
+                    <path d="M0,-5 L10,-1 L10,-5 L20,0 L10,5 L10,1 L0,5" fill="black" stroke=none></path>
+                </marker>
+                <marker id="straight-nonUI" viewBox="0 -5 10 10" refX="20" refY="0" markerWidth="10" markerHeight="10" orient="auto" color="inherit" markerUnits='userSpaceOnUse' preserveAspectRatio=none>
+                    <path d="M0,-5 L10,0 L0,5" fill="none" stroke="black" stroke-dasharray="5,0"></path>
+                </marker>
+                <marker id="arc-UI" viewBox="0 -5 20 10" refX="30" refY="-2.7" markerWidth="20" markerHeight="10" orient="auto" color="inherit" markerUnits='userSpaceOnUse' preserveAspectRatio=none overflow="visible">
+                    <path d="M0,-5 L10,-1 L10,-5 L20,0 L10,5 L10,1 L0,5" transform="rotate(-12.5,10,0)" fill="black" stroke=none></path>
+                </marker>
+                <marker id="arc-nonUI" viewBox="0 -5 10 10" refX="20" refY="-0.8" markerWidth="10" markerHeight="10" orient="auto" color="inherit" markerUnits='userSpaceOnUse' preserveAspectRatio=none" overflow="visible">
+                    <path d="M0,-5 L10,0 L0,5"  transform="rotate(-5,10,0)" fill="none" stroke="black" stroke-dasharray="5,0"></path>
+                </marker>
             </defs>
         </svg>
     
