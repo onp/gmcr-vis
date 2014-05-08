@@ -22,7 +22,9 @@
                 if (treeVis.showOnlyUIs && (a.payoffChange < 1)){
                     //don't add the node.
                 } else if (a.dm !== dm) {
-                    return buildTree(a.target, a.dm, height-1);
+                    if (conflict.data.decisionMakers[a.dm.slice(2)].isShown){
+                        return buildTree(a.target, a.dm, height-1);
+                    }
                 }
             });
         } else {

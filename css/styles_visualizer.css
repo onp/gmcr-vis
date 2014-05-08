@@ -10,6 +10,10 @@ body{
     right:0px;
 }
 
+ul{
+    list-style:none
+}
+
 /* Side Menus */
 
 div#menu-left{

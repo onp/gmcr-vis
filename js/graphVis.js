@@ -69,6 +69,10 @@
             })
         }
         
+        rawLinks = rawLinks.filter(function(a){
+            return conflict.data.decisionMakers[a.dm.slice(2)].isShown
+        })
+        
         graph.links(rawLinks);
 
         visNodes = container.selectAll("circle.node").data(graph.nodes()),
@@ -165,9 +169,9 @@
         var config = $(
             "<li>                                               \
                 <input type='radio' name='connectorShape' value='line'> \
-                <label>Line</label>                             \
+                <label>Lines</label>                             \
                 <input type='radio' name='connectorShape' value='arc'>  \
-                <label>Arc</label>                              \
+                <label>Arcs</label>                              \
             </li>                                               \
             <li>                                                \
                 <input type='checkbox' name='ui' id='ui'>       \
@@ -175,7 +179,7 @@
             </li>                                               \
             <li>                                                \
                 <input type='checkbox' name='styleUIs' id='styleUIs'>   \
-                <label for='styleUIs'>differentiate UIs</label>         \
+                <label for='styleUIs'>Differentiate UIs</label>         \
             </li>");
             
         config.find("input[name='connectorShape'][value='"+graphVis.connectorShape+"']")

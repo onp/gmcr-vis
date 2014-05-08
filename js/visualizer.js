@@ -24,14 +24,18 @@ var unpackJSONconflict = function(data){
                 }
         );
     }
+    for (var i = 0; i < data.decisionMakers.length; i++){
+        data.decisionMakers[i].isShown = true;
+    }
     conflict.data = data;
-    loadConflict()
-}
+    loadConflict();
+};
 
 var loadConflict = function () {
+    //fetches the conflict if it has not already been retrieved, then loads it.
     if (conflict.data === undefined) {
         $.getJSON(conflict.url, unpackJSONconflict);
-        return
+        return;
     }
     visualization.loadVis(conflict,d3.select("svg#visualization-container"));
     changeLegend();
@@ -56,7 +60,7 @@ var changeLegend = function () {
     $("div#menu-bottom table").html("");
     
     var legendData = [[],[]];
-    var dmNames = ""
+    var dmNames = "";
     
     for (var i = 2; i<conflict.data.options.length+2; i++){
         legendData[i] = [];
@@ -73,7 +77,7 @@ var changeLegend = function () {
         var dm = conflict.data.decisionMakers[i];
         legendData[i+row][0] = tElemMaker(dm.name, "th", dm.options.length,["dm"+i]);
         row += dm.options.length -1;
-        dmNames += "<p class='dm"+i+"'>---- "+dm.name+"</p>"
+        dmNames += "<p class='dm"+i+"'>---- "+dm.name+"</p>";
     }
     
     for (var i = 0; i < conflict.data.options.length; i++){
@@ -138,6 +142,22 @@ var changeLegend = function () {
     
     $("#dm-names").html(dmNames);
     
+    $("#disp-dms").html("");
+    for (var i = 0; i < conflict.data.decisionMakers.length; i++){
+        (function(dm){
+            dm.isShown = dm.isShown || false;
+            var $dm = $("<li><input type='checkbox' name='dm" + i + "checkbox'><label for='dm" + i + "checkbox'>"+dm.name+"</label></li>");
+            var $dmCheckbox = $dm.find("input");
+            $dmCheckbox.prop("checked",dm.isShown);
+            $("#disp-dms").append($dm);
+            $dmCheckbox.change(function(){
+                dm.isShown = $dmCheckbox.prop("checked");
+                visualization.refresh();
+            });
+
+        })(conflict.data.decisionMakers[i]);        
+    }
+    
 };
 
 
@@ -151,7 +171,7 @@ $(function () {
                 $(this).siblings().removeClass('selected');
                 $(this).addClass('selected');
             }).appendTo("ul#conflict-list");
-    }
+    };
     
     $.each(conflicts,addConflict);
     
@@ -172,39 +192,39 @@ $(function () {
     });
     
     var extendMenu= function (){
-        var $th = $(this)
-        $th.addClass("extended")
+        var $th = $(this);
+        $th.addClass("extended");
         setTimeout(function(){
             $th.one('click',function(){
                 $th.removeClass("extended")
-                    .one('touchstart',extendMenu)
-            })
-        },500)
-    }
+                    .one('touchstart',extendMenu);
+            });
+        },500);
+    };
     
     $("div#menu-left,div#menu-bottom")
         .one('touchstart',extendMenu
         ).on('mouseover',function(){
-            $(this).addClass("extended")
+            $(this).addClass("extended");
         }).on('mouseout',function(){
-            $(this).removeClass("extended")
-        })
+            $(this).removeClass("extended");
+        });
         
     $("#confFileSelector").change(function(event){
-        var file = event.target.files[0]
+        var file = event.target.files[0];
         var reader = new FileReader();
         reader.onload = function(){
             var newData = {'name':file.name,
-                       'url':"FromFile",
-            }
-            conflicts.push(newData)
-            addConflict(undefined,newData)
+                           'url':"FromFile"
+            };
+            conflicts.push(newData);
+            addConflict(undefined,newData);
             conflict = newData;
-            unpackJSONconflict(JSON.parse(reader.result))
-        }
+            unpackJSONconflict(JSON.parse(reader.result));
+        };
         
         reader.readAsText(file);
-    })
+    });
     
     $("ul#conflict-list li").first().click();
     $("ul#visualization-list li").first().addClass('selected');
