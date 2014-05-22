@@ -22,7 +22,6 @@
     }
     
     function isNotUI(d){
-        console.log("testing")
         if (graphVis.styleNonUIs == false){
             return false
         } else if (d.payoffChange <= 0){
@@ -32,7 +31,6 @@
     }
 	
     function isUI(d){
-        console.log("testing")
         if (graphVis.styleUIs == false){
             return false
         } else if (d.payoffChange > 0){
@@ -70,6 +68,10 @@
                 return a.payoffChange > 0
             })
         }
+        
+        rawLinks = rawLinks.filter(function(a){
+            return conflict.data.decisionMakers[a.dm.slice(2)].isShown
+        })
         
         graph.links(rawLinks);
 
@@ -167,9 +169,9 @@
         var config = $(
             "<li>                                               \
                 <input type='radio' name='connectorShape' value='line'> \
-                <label>Line</label>                             \
+                <label>Lines</label>                             \
                 <input type='radio' name='connectorShape' value='arc'>  \
-                <label>Arc</label>                              \
+                <label>Arcs</label>                              \
             </li>                                               \
             <li>                                                \
                 <input type='checkbox' name='ui' id='ui'>       \
@@ -177,7 +179,7 @@
             </li>                                               \
             <li>                                                \
                 <input type='checkbox' name='styleUIs' id='styleUIs'>   \
-                <label for='styleUIs'>differentiate UIs</label>         \
+                <label for='styleUIs'>Differentiate UIs</label>         \
             </li>");
             
         config.find("input[name='connectorShape'][value='"+graphVis.connectorShape+"']")
