@@ -4,12 +4,13 @@
     treeVis.name = "Tree";
     treeVis.treeDepth = 3;
     treeVis.showOnlyUIs = false;
+    treeVis.styleUIs = false;
     var tree = d3.layout.tree();
     var rootNode, treeRoot, conflict, container;
     var visNodes, visLinks, visLabels;  // d3 selections
     var nodeData, linkData;  // d3 tree generated data arrays
 
-    var buildTree = function (sourceNode, dm, height) {
+    var buildTree = function (sourceNode, dm, height,payoffChange) {
         //recursively builds a tree of the requested height from the given source node.
         //dm specifies the decision maker who made the move to this node, and so
         //  cannot move again immediately.
@@ -17,13 +18,20 @@
         thisNode.dat = sourceNode;
         thisNode.height = height;
         thisNode.dm = dm;
+        thisNode.payoffChange = payoffChange
         if (height > 0) {
-            thisNode.children = $.map(sourceNode.reachable, function (a) {
-                if (treeVis.showOnlyUIs && (a.payoffChange < 1)){
+            thisNode.children = $.map(sourceNode.reachable, function (move) {
+                if (treeVis.showOnlyUIs && (move.payoffChange < 1)){
                     //don't add the node.
-                } else if (a.dm !== dm) {
-                    if (conflict.data.decisionMakers[a.dm.slice(2)].isShown){
-                        return buildTree(a.target, a.dm, height-1);
+                } else if (move.dm !== dm) {
+                    if (conflict.data.coalitionsFull !== undefined){
+                        if (conflict.data.coalitionsFull[move.dm.slice(2)].isShown){
+                            return buildTree(move.target, move.dm, height-1,move.payoffChange);
+                        }
+                    } else {
+                        if (conflict.data.decisionMakers[move.dm.slice(2)].isShown){
+                            return buildTree(move.target, move.dm, height-1,move.payoffChange);
+                        }
                     }
                 }
             });
@@ -32,6 +40,15 @@
         }
         return thisNode;
     };
+    
+    function isUI(d){
+        if (treeVis.styleUIs == false){
+            return false
+        } else if (d.target.payoffChange > 0){
+            return true
+        }
+        return false
+    }
 
     var diagonal = d3.svg.diagonal()        //used in making lines in the tree layout.
         .projection(function (d) {return [d.x, d.y+20]; });
@@ -50,7 +67,8 @@
         visLinks.exit().remove();
         visLinks.enter().insert("path", "circle");
         visLinks.attr("d", diagonal)
-            .attr("class", function (d) {return "link " + d.target.dm; });
+            .attr("class", function (d) {return "link " + d.target.dm; })
+            .classed("ui",isUI);
 
         visNodes.exit().remove();
         visNodes.enter().insert("circle", "text")
@@ -129,6 +147,10 @@
             <li>                                                \
                 <input type='checkbox' name='ui' id='ui'>       \
                 <label for='ui'>Only show UIs</label>           \
+            </li>                                               \
+            <li>                                                \
+                <input type='checkbox' name='styleUIs' id='styleUIs'>   \
+                <label for='styleUIs'>Differentiate UIs</label>         \
             </li>");
             
         config.find("#treeDepth")
@@ -141,6 +163,13 @@
             .prop("checked", treeVis.showOnlyUIs)
             .change(function(){
                 treeVis.showOnlyUIs = $(this).prop("checked");
+                refresh();
+            });
+            
+        config.find("#styleUIs")
+            .prop("checked", treeVis.styleUIs)
+            .change(function(){
+                treeVis.styleUIs = $(this).prop("checked");
                 refresh();
             });
         

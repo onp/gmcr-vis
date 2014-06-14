@@ -24,9 +24,17 @@ var unpackJSONconflict = function(data){
                 }
         );
     }
-    for (var i = 0; i < data.decisionMakers.length; i++){
-        data.decisionMakers[i].isShown = true;
+
+    if (data.coalitionsFull !== undefined){
+        for (var i = 0; i < data.coalitionsFull.length; i++){
+            data.coalitionsFull[i].isShown = true;
+        }
+    } else {
+        for (var i = 0; i < data.decisionMakers.length; i++){
+            data.decisionMakers[i].isShown = true;
+        }
     }
+        
     conflict.data = data;
     loadConflict();
 };
@@ -73,12 +81,22 @@ var changeLegend = function () {
     legendData[1][1] = tElemMaker("Decimal", "th");
     
     var row = 2;
-    for (var i = 0; i < conflict.data.decisionMakers.length; i++){
-        var dm = conflict.data.decisionMakers[i];
-        legendData[i+row][0] = tElemMaker(dm.name, "th", dm.options.length,["dm"+i]);
-        row += dm.options.length -1;
-        dmNames += "<p class='dm"+i+"'>---- "+dm.name+"</p>";
+    if (conflict.data.coalitionsFull !== undefined){
+        for (var i = 0; i < conflict.data.coalitionsFull.length; i++){
+            var dm = conflict.data.coalitionsFull[i];
+            legendData[i+row][0] = tElemMaker(dm.name, "th", dm.options.length,["dm"+i]);
+            row += dm.options.length -1;
+            dmNames += "<p class='dm"+i+"'>---- "+dm.name+"</p>";
+        }
+    } else {
+        for (var i = 0; i < conflict.data.decisionMakers.length; i++){
+            var dm = conflict.data.decisionMakers[i];
+            legendData[i+row][0] = tElemMaker(dm.name, "th", dm.options.length,["dm"+i]);
+            row += dm.options.length -1;
+            dmNames += "<p class='dm"+i+"'>---- "+dm.name+"</p>";
+        }
     }
+        
     
     for (var i = 0; i < conflict.data.options.length; i++){
         legendData[i+2][1] = tElemMaker(conflict.data.options[i].name,undefined,undefined,["option","opt"+i]);
@@ -143,19 +161,36 @@ var changeLegend = function () {
     $("#dm-names").html(dmNames);
     
     $("#disp-dms").html("");
-    for (var i = 0; i < conflict.data.decisionMakers.length; i++){
-        (function(dm){
-            dm.isShown = dm.isShown || false;
-            var $dm = $("<li><input type='checkbox' name='dm" + i + "checkbox'><label for='dm" + i + "checkbox'>"+dm.name+"</label></li>");
-            var $dmCheckbox = $dm.find("input");
-            $dmCheckbox.prop("checked",dm.isShown);
-            $("#disp-dms").append($dm);
-            $dmCheckbox.change(function(){
-                dm.isShown = $dmCheckbox.prop("checked");
-                visualization.refresh();
-            });
+    if (conflict.data.coalitionsFull !== undefined){
+        for (var i = 0; i < conflict.data.coalitionsFull.length; i++){
+            (function(dm){
+                dm.isShown = dm.isShown || false;
+                var $dm = $("<li><input type='checkbox' name='dm" + i + "checkbox'><label for='dm" + i + "checkbox'>"+dm.name+"</label></li>");
+                var $dmCheckbox = $dm.find("input");
+                $dmCheckbox.prop("checked",dm.isShown);
+                $("#disp-dms").append($dm);
+                $dmCheckbox.change(function(){
+                    dm.isShown = $dmCheckbox.prop("checked");
+                    visualization.refresh();
+                });
 
-        })(conflict.data.decisionMakers[i]);        
+            })(conflict.data.coalitionsFull[i]);        
+        }
+    } else {
+        for (var i = 0; i < conflict.data.decisionMakers.length; i++){
+            (function(dm){
+                dm.isShown = dm.isShown || false;
+                var $dm = $("<li><input type='checkbox' name='dm" + i + "checkbox'><label for='dm" + i + "checkbox'>"+dm.name+"</label></li>");
+                var $dmCheckbox = $dm.find("input");
+                $dmCheckbox.prop("checked",dm.isShown);
+                $("#disp-dms").append($dm);
+                $dmCheckbox.change(function(){
+                    dm.isShown = $dmCheckbox.prop("checked");
+                    visualization.refresh();
+                });
+
+            })(conflict.data.decisionMakers[i]);        
+        }
     }
     
 };
