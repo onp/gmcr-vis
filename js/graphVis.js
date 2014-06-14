@@ -70,7 +70,11 @@
         }
         
         rawLinks = rawLinks.filter(function(a){
-            return conflict.data.decisionMakers[a.dm.slice(2)].isShown
+            if (conflict.data.coalitionsFull !== undefined){
+                return conflict.data.coalitionsFull[a.dm.slice(2)].isShown
+            } else {
+                return conflict.data.decisionMakers[a.dm.slice(2)].isShown
+            }
         })
         
         graph.links(rawLinks);
