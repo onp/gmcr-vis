@@ -51,7 +51,7 @@
     }
 
     var diagonal = d3.svg.diagonal()        //used in making lines in the tree layout.
-        .projection(function (d) {return [d.x, d.y+20]; });
+        .projection(function (d) {return [d.x, d.y+60]; });
 
     var refresh = function () {
         d3.selectAll("circle").style("fill", "lightBlue")
@@ -92,7 +92,7 @@
 
         visNodes.attr("class", function (d) {return "node st" + d.dat.id; })
             .attr("cx", function (d) {return d.x; })
-            .attr("cy", function (d) {return d.y + 20; });
+            .attr("cy", function (d) {return d.y + 60; });
 
         visLabels.exit().remove();
         visLabels.enter()
@@ -101,7 +101,7 @@
             .attr("dy", 3);
         visLabels.text(function (d) {return d.dat.ordered; })
             .attr("transform", function (d) {
-                return "translate(" + (d.x) + "," + (d.y + 20) + ")";
+                return "translate(" + (d.x) + "," + (d.y + 60) + ")";
             });
 
     };
