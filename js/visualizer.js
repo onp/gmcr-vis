@@ -121,12 +121,12 @@ var changeLegend = function () {
     $(tString).appendTo("div#menu-bottom table");
     
     var tableHeight = $("div#menu-bottom table").height();
-    $("div#menu-bottom").height(tableHeight+60);
+    $("div#menu-bottom").height(tableHeight+75);
     var styleSheet = document.styleSheets[1];  //this is easily breakable.
     for (var i = 0; i<styleSheet.cssRules.length; i++){
         var rule = styleSheet.cssRules[i];
         if (rule.selectorText == "div#menu-bottom"){
-            rule.style.bottom = String(-40-tableHeight) + "px";
+            rule.style.bottom = String(-27-tableHeight) + "px";
             break;
         }
     }
