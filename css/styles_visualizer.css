@@ -26,6 +26,8 @@ div#menu-left{
     background:lightBlue;
     border-right:1px solid black;
     overflow:scroll;
+    padding-top:35px;
+    
 }
 
 div#menu-left.extended{
@@ -40,20 +42,30 @@ div#menu-bottom{
     position:fixed;
     background:lightBlue;
     border-top:1px solid black;
+    opacity:0.7;
 }
 
 div#menu-bottom.extended{
     bottom:0px;
-    opacity:0.7;
 }
 
 p.menu-title{
     margin:0px;
     width:100%;
     text-align:center;
-    padding-top:10px;
+    padding:10px;
     font-weight:800;
-    font-size:larger;
+    font-size:25px;
+    border-bottom:1px solid black;
+}
+
+div#menu-left p.menu-title{
+    position:fixed;
+    width:auto;
+    left:0px;
+    top:0px;
+    background:inherit;
+    border-right:1px solid black;
 }
 
 p.menu-subtitle{
