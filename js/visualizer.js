@@ -1,9 +1,9 @@
 'use strict';
 
 var conflicts = [
-    {"name" : "Prisoners", "url" : "json/PrisonersVis.json"},
-    {"name" : "Garrison", "url" : "json/GarrisonVis.json"},
-    {"name" : "SyriaIraq", "url" : "json/SyriaIraqVis.json"},
+    {"name" : "Prisoners", "url" : "json/Prisoners.json"},
+    {"name" : "Garrison", "url" : "json/Garrison.json"},
+    {"name" : "SyriaIraq", "url" : "json/SyriaIraq.json"},
     {"name" : "Elmira", "url" : "json/Elmira.json"}
 ];
 
@@ -70,7 +70,7 @@ var changeLegend = function () {
     var legendData = [[],[]];
     var dmNames = "";
     
-    for (var i = 2; i<conflict.data.options.length+2; i++){
+    for (var i = 2; i<conflict.data.options.length+2+conflict.data.decisionMakers.length; i++){
         legendData[i] = [];
     }
     
@@ -81,6 +81,20 @@ var changeLegend = function () {
     legendData[1][1] = tElemMaker("Decimal", "th");
     
     var row = 2;
+    
+    for (var i = 0; i < conflict.data.decisionMakers.length; i++){
+        var dm = conflict.data.decisionMakers[i];
+        console.log(dm.name)
+        legendData[row][0] = tElemMaker(dm.name,"th",undefined,["dm"+i]);
+        console.log(row)
+        console.log(legendData[row][0])
+        legendData[row][1] = tElemMaker("payoffs");
+        for (var j = 0; j < dm.payoffs.length; j++){
+            legendData[row][2+j] = tElemMaker(dm.payoffs[j],undefined,undefined,["state","st"+j])
+        }
+        row+=1;
+    }
+    
     if (conflict.data.coalitionsFull !== undefined){
         for (var i = 0; i < conflict.data.coalitionsFull.length; i++){
             var dm = conflict.data.coalitionsFull[i];
@@ -99,7 +113,7 @@ var changeLegend = function () {
         
     
     for (var i = 0; i < conflict.data.options.length; i++){
-        legendData[i+2][1] = tElemMaker(conflict.data.options[i].name,undefined,undefined,["option","opt"+i]);
+        legendData[i+2+conflict.data.decisionMakers.length][1] = tElemMaker(conflict.data.options[i].name,undefined,undefined,["option","opt"+i]);
     }
     
     for (var j = 0; j < conflict.data.nodes.length; j++){
@@ -107,7 +121,7 @@ var changeLegend = function () {
         legendData[0][j+2] = tElemMaker(node.ordered,undefined,undefined,["state","st"+node.id]);
         legendData[1][j+2] = tElemMaker(node.decimal,undefined,undefined,["state","st"+node.id]);
         for (var i = 0; i<node.state.length; i++){
-            legendData[i+2][j+2] =tElemMaker(node.state[i],undefined,undefined,["option","opt"+i,"state","st"+node.id]);
+            legendData[i+2+conflict.data.decisionMakers.length][j+2] =tElemMaker(node.state[i],undefined,undefined,["option","opt"+i,"state","st"+node.id]);
         }
     }
     
