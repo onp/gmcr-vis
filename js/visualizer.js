@@ -202,10 +202,10 @@ $(function () {
                 loadConflict();
                 $(this).siblings().removeClass('selected');
                 $(this).addClass('selected');
-            }).appendTo("ul#conflict-list");
+            })//.appendTo("ul#conflict-list");
     };
     
-    $.each(conflicts,addConflict);
+    //$.each(conflicts,addConflict);
     
     $.each(visualizations, function (i, vis) {
         $("<li>" + vis.name + "</li>")
@@ -258,7 +258,10 @@ $(function () {
         reader.readAsText(file);
     });
     
-    $("ul#conflict-list li").first().click();
+    //$("ul#conflict-list li").first().click();
     $("ul#visualization-list li").first().addClass('selected');
+    
+    conflict = conflicts[0];
+    loadConflict();
     visualization.visConfig();
 });
